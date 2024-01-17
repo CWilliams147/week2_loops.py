@@ -1,0 +1,67 @@
+hotel = {
+    '1': {
+        '185': ['George Jefferson', 'Wheezy Jefferson'],
+    },
+    '2': {
+        '237': ['Jack Torrance', 'Wendy Torrance'],
+    },
+    '3': {
+        '333': ['Neo', 'Trinity', 'Morpheus']
+    }
+}
+
+def display_occupants():
+    print("\nCurrent Occupants:")
+    for floor, rooms in hotel.items():
+        for room, occupants in rooms.items():
+            print(f"Floor {floor}, Room {room}: {', '.join(occupants)}")
+
+def check_in():
+    floor = input("Enter the floor number: ")
+    room = input("Enter the room number: ")
+    occupants_count = int(input("Enter the number of occupants: "))
+    
+    occupants = []
+    for _ in range(occupants_count):
+        occupant_name = input("Enter occupant name: ")
+        occupants.append(occupant_name)
+    
+    if floor in hotel and room in hotel[floor]:
+        hotel[floor][room].extend(occupants)
+    else:
+        hotel.setdefault(floor, {}).setdefault(room, []).extend(occupants)
+
+    display_occupants()
+
+def check_out():
+    floor = input("Enter the floor number: ")
+    room = input("Enter the room number: ")
+
+    if floor in hotel and room in hotel[floor]:
+        occupants = hotel[floor][room]
+        del hotel[floor][room]
+        print(f"Checked out: {', '.join(occupants)}")
+    else:
+        print("No occupants found in that room.")
+
+    display_occupants()
+
+def main():
+    while True:
+        print("\nHotel Management System")
+        print("1. Check In\n2. Check Out\n3. Quit")
+
+        choice = input("Enter your choice (1-3): ")
+
+        if choice == '1':
+            check_in()
+        elif choice == '2':
+            check_out()
+        elif choice == '3':
+            print("Exiting program. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please enter 1, 2, or 3.")
+
+if __name__ == "__main__":
+    main()
